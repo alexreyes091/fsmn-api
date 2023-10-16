@@ -18,26 +18,32 @@
 
 ---
 
-##### 1. Clonar el repositorio
+##### 1. Clonar el repositorio.
 
 ```bash
-> git clone 
+> git clone https://github.com/alexreyes091/fsmn-api.git
 ```
 
-##### 2. Navegar al directorio del proyecto
+##### 2. Navegar al directorio del proyecto y crear una instancia de la base de datos en docker.
 
-- Instalar las dependencias del proyecto.
+```bash
+> docker compose up -d
+```
+
+##### 3. Instalar Dependencias
+
 - (Si utiliza virtualenv, asegurece de que su entorno este activo.)
 
 ```bash
 > pip install -r requirements.txt
 ```
 
-##### 3.  Ejecutar el main.py
+##### 4.  Ejecutar el main.py
 
 ```bash
 > python main.py
 ```
+
 
 ## Detalles de Uso
 

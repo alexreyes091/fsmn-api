@@ -1,0 +1,14 @@
+version: '3'
+services:
+  myDB:
+    image: postgres:15.3
+    container_name: thw-database
+    restart: always
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=alexreyes
+      - POSTGRES_PASSWORD=GimTextR5B
+      - POSTGRES_DB=thw-db
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
