@@ -38,10 +38,10 @@
 > pip install -r requirements.txt
 ```
 
-##### 4.  Ejecutar el main.py
+##### 4.  Ejecutar la api con uvicorn
 
 ```bash
-> python main.py
+> uvicorn main:app --reload
 ```
 
 
