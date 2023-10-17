@@ -21,14 +21,14 @@ def seed_users():
         User(id_user=1001, first_name='Roberto Ramirez', last_name='Hernandez', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png'),
         User(id_user=1002, first_name='Stefy', last_name='Cruz Sua', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png'),
         User(id_user=1003, first_name='Denis Dario', last_name='Cuadrado', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png'),
-        User(id_user=1004, first_name='Esteban Emilio', last_name='Contreras', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png'),
+        User(id_user=1004, first_name='Esteban Emilio', last_name='Contreras', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/22.png'),
         User(id_user=1005, first_name='Patric Pavaroti', last_name='Lau', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png'),
         User(id_user=1006, first_name='Sander Solovino', last_name='Dog', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png'),
         User(id_user=1007, first_name='Pedro Peralta', last_name='Cornejo', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png'),
         User(id_user=1008, first_name='Alexis Arveloa', last_name='Wong', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png'),
         User(id_user=1009, first_name='Antonela Bu', last_name='Lau', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png'),
         User(id_user=1010, first_name='Henrry Dario', last_name='Perez', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/5.png'),
-        User(id_user=1011, first_name='Duglas', last_name='Crua Wong', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png'),
+        User(id_user=1011, first_name='Duglas', last_name='Crua Wong', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/13.png'),
         User(id_user=1012, first_name='William Josue', last_name='Chevez', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png'),
         User(id_user=1013, first_name='Ever Josue', last_name='Singua', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/7.png'),
         User(id_user=1014, first_name='Sara', last_name='Herrera Chi', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png'),
@@ -38,8 +38,11 @@ def seed_users():
         User(id_user=1018, first_name='Lexi', last_name='Lipa', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/9.png'),
         User(id_user=1019, first_name='Donatelo', last_name='Tortoise', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png'),
         User(id_user=1020, first_name='Leti Sevitar', last_name='Flamenco', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/11.png'),
-        User(id_user=2001, first_name='Debora', last_name='Flamenco', role=RoleType.MANAGER, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/7.png'),
+        User(id_user=1021, first_name='Fabian Andre', last_name='Torres', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/13.png'),
+        User(id_user=1022, first_name='Luz Daniela', last_name='Cueva', role=RoleType.COLABORADOR, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/15.png'),
+        User(id_user=2001, first_name='Debora', last_name='Paz', role=RoleType.MANAGER, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/7.png'),
         User(id_user=2002, first_name='Lester Andres', last_name='Chevez', role=RoleType.MANAGER, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png'),
+        User(id_user=2003, first_name='Alex', last_name='Reyes Chevez', role=RoleType.MANAGER, avatar='https://d2u8k2ocievbld.cloudfront.net/memojis/male/16.png'),
     ]
     return users
 
@@ -47,6 +50,7 @@ def seed_user_account():
     users_account = [
         UserAccount(id_user=2001, username='debora.flamenco', password='$2b$12$aKj1j6PU1.vzNRYqlMGu2uFzfJ7Mbjz5E7Rtl/JfvRburKRTIAnyi', is_active=True),
         UserAccount(id_user=2002, username='lester.chevez', password='$2b$12$aKj1j6PU1.vzNRYqlMGu2uFzfJ7Mbjz5E7Rtl/JfvRburKRTIAnyi', is_active=True),
+        UserAccount(id_user=2003, username='alex.reyes', password='$2b$12$aKj1j6PU1.vzNRYqlMGu2uFzfJ7Mbjz5E7Rtl/JfvRburKRTIAnyi', is_active=True),
     ]
     return users_account
 
@@ -72,8 +76,11 @@ def seed_user_adress():
         UserAdress(id_user=1018, description='Kilómetro 45, Puerto Cortés', coordinate='-87.80903115499268,15.694369059226545'),
         UserAdress(id_user=1019, description='Toloa Creek, Puerto Cortés', coordinate='-87.7786903150873,15.720238850632171'),
         UserAdress(id_user=1020, description='Gasolinera UNO, Frente a Carretera, Omoa', coordinate='-88.03594723013121,15.777128295021129'),
+        UserAdress(id_user=1021, description='Avenida Circunvalacion, San Pedro Sula', coordinate='-88.03795390269629,15.503498380878014'),
+        UserAdress(id_user=1022, description='Barrio La Guadalupe, Tegucigalpa, Francisco Morazán.', coordinate='-87.19520847981596,14.099188124212048'),
         UserAdress(id_user=2001, description='Mexichem Amanco, Carretera haci San Pedro Sula', coordinate='-87.98751374850804,15.559867493659311'),
         UserAdress(id_user=2002, description='Chamelecón, San Pedro Sula, Cortés, Honduras', coordinate='-88.01631861741664,15.426183566794776'),
+        UserAdress(id_user=2003, description='Avenida Circunvalacion, San Pedro Sula', coordinate='-88.02709890755573,15.502475909458724'),
         
     ]
     return users_adress

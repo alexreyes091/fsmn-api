@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 # Locales
 from app.database.config import get_db
 from app.routes.stores import query_store
+# Esquemas
+from app.routes.schemas.stores.store import StoreUsers
 # Enrutador
 router = APIRouter(
     prefix='/stores',
@@ -77,10 +79,15 @@ def get(id_store: str, db: Session = Depends(get_db)):
 
 
 @router.post('/user_assing/', status_code=status.HTTP_201_CREATED)
-def add(id_store: str, id_user: str, db: Session = Depends(get_db)):
+def add(store_users: StoreUsers, db: Session = Depends(get_db)):
+    # Datos:
+    id_user = store_users.id_user
+    id_store = store_users.id_store
+    distance = store_users.distance
+
     # Realiza el Post para la relacion de usuarios
     if id_store.isdigit() and id_user.isdigit():
-        request = query_store.createStoreUsers(int(id_store), int(id_user), db)
+        request = query_store.createStoreUsers(int(id_store), int(id_user), distance, db)
 
 
 @router.delete('/user_assing/', status_code=status.HTTP_200_OK)

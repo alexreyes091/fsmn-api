@@ -11,6 +11,7 @@ stores_users = Table(
     Base.metadata,
     Column('id_store', Integer, ForeignKey('stores.id_store'), primary_key=True),
     Column('id_user', Integer, ForeignKey('users.id_user'), primary_key=True),
+    Column('distance', String(50), nullable=False)
 )
 
 class Store(Base):

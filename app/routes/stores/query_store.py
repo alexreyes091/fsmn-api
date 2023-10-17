@@ -35,7 +35,7 @@ def getStoresByUser(user_id: int, db: Session):
         data_user = getUserById(user_id, db)
         data_stores_assing = []
 
-        for id_store, id_user in stores_by_user:
+        for id_store, id_user, distance in stores_by_user:
             data_stores_assing.append(getStoreById(id_store, db))
 
         return data_user, data_stores_assing
@@ -55,38 +55,45 @@ def getUsersByStore(store_id: int, db: Session):
         data_store = getStoreById(store_id, db)
         data_users_assing = []
 
-        for id_store, id_user in users_by_store:
+        for id_store, id_user, distance in users_by_store:
             data_users_assing.append(getUserById(id_user, db))
 
         return data_store, data_users_assing
     return None, None
 
 
-def createStoreUsers(id_store: int, id_user: int, db: Session):
-    # Crea la realcion de sucursal y usuarios
-    if isUserExist(id_user, db) and isStoreExist(id_store, db):
-
-        user = getUserById(id_user, db)
-        store = getStoreById(id_store, db)
-
-        if user in store.users:
-            raise HTTPException(
-                status_code = status.HTTP_406_NOT_ACCEPTABLE,
-                detail = 'El usuario ya esta asignado a esta surcursal.'
-            )
-        store.users.append(user)
-        db.commit()
-
+def createStoreUsers(id_store: int, id_user: int, distance: str, db: Session):
+    # Comprueba si el usuario y la sucursal existen en la base de datos
+    if not isUserExist(id_user, db) or not isStoreExist(id_store, db):
         raise HTTPException(
-            status_code = status.HTTP_201_CREATED,
-            detail = 'Registro creado correctamente'
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Los registros de usuario y/o sucursal no se encontraron."
         )
-        
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail = "Los registros de usuario y/o sucursal no se encontraron."
+
+    user = getUserById(id_user, db)
+    store = getStoreById(id_store, db)
+
+    # Comprueba si el usuario ya está asignado a esta sucursal
+    if user in store.users:
+        raise HTTPException(
+            status_code=status.HTTP_406_NOT_ACCEPTABLE,
+            detail="El usuario ya está asignado a esta sucursal."
+        )
+
+    # Crea un nuevo registro en la tabla de relaciones
+    new_register = stores_users.insert().values(
+        id_store=id_store,
+        id_user=id_user,
+        distance=distance
     )
 
+    db.execute(new_register)
+    db.commit()
+
+    raise HTTPException(
+        status_code=status.HTTP_201_CREATED,
+        detail="Registro creado correctamente"
+    )
 
 def deleteStoreUsers(id_store: int, id_user: int, db: Session):
     # Elimina la realcion de sucursal y usuarios
