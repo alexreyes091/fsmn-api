@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session, load_only
 # Locales
 from app.database.config import get_db
 from app.routes.trips import query_trip
+from app.routes.schemas.Trips.trips import Trip, TripUser
 # Enrutador
 router = APIRouter(
     prefix='/trips',
@@ -35,17 +36,21 @@ def get(id_trip: str, db: Session = Depends(get_db)):
 
 # TODO: Crear esquemas pydentic
 @router.post('/', status_code=status.HTTP_200_OK)
-def create(id_trip: int, applicant: str, licence_plate: str, id_store: int, date: datetime, db: Session = Depends(get_db)):
-    # Obtenemos lista de trips
-    request = query_trip.createTrip(id_trip, applicant, licence_plate, id_store, date, db)
+def create(trip: Trip, db: Session = Depends(get_db)):
+    id_trip = trip.id_trip;
+    applicant = trip.applicant;
+    transport = trip.transport;
+    id_store = trip.id_store;
+
+    request = query_trip.createTrip(id_trip, applicant, transport, id_store, db)
 
     return request
 
 # TODO: Crear esquemas pydentic
 @router.put('/', status_code=status.HTTP_200_OK)
-def update(id_trip: int, applicant: str, licence_plate: str, id_store: int, date: datetime, db: Session = Depends(get_db)):
+def update(id_trip: int, applicant: str, transport: str, id_store: int, date: datetime, db: Session = Depends(get_db)):
     # Obtenemos lista de trips
-    request = query_trip.updateTrip(id_trip, applicant, licence_plate, id_store, date, db)
+    request = query_trip.updateTrip(id_trip, applicant, transport, id_store, date, db)
 
     return request
 
@@ -70,7 +75,7 @@ def get(id_user: str, db: Session = Depends(get_db)):
 @router.get('/by_trip_assing/{id_trip}', status_code=status.HTTP_200_OK)
 def get(id_trip: str, db: Session = Depends(get_db)):
     if id_trip.isdigit():
-        trip, users = query_trip.getUsersByTrip(int(id_trip), db)
+        trip, users = query_trip.getUsersByTrip(id_trip, db)
     else: 
         trip = None
 
@@ -84,10 +89,9 @@ def get(id_trip: str, db: Session = Depends(get_db)):
 
     
 @router.post('/user_assing/', status_code=status.HTTP_201_CREATED)
-def add(id_trip: str, id_user: str, db: Session = Depends(get_db)):
+def add(tripUser: TripUser, db: Session = Depends(get_db)):
     # Realiza el Post para la relacion de usuarios
-    if id_trip.isdigit() and id_user.isdigit():
-        request = query_trip.createTripUsers(int(id_trip), int(id_user), db)
+    request = query_trip.createTripUsers(tripUser.id_trip, tripUser.id_user, db)
 
 
 @router.delete('/user_assing/', status_code=status.HTTP_200_OK)
@@ -95,5 +99,10 @@ def remove(id_trip: str, id_user: str, db: Session = Depends(get_db)):
     # Realiza la eliminacion de la relacion de usuarios
     if id_trip.isdigit() and id_user.isdigit():
         request = query_trip.deleteTripUsers(int(id_trip), int(id_user), db)
+
+@router.delete('/user_assing/{id_trip}', status_code=status.HTTP_200_OK)
+def remove(id_trip: str, db: Session = Depends(get_db)):
+    # Realiza la eliminacion de la relacion de usuarios
+    request = query_trip.deleteAllTripUsers(id_trip, db)
 # --------------------------------------------------------
 

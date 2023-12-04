@@ -1,9 +1,11 @@
-import datetime
+from datetime import date 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 #Locales
 from app.database.models.trips.trip import Trip as model_trip, trip_users
 from app.routes.users.query_user import isUserExist, getUserById
+from app.routes.transport.query_transport import isTransportExist
+from app.routes.stores.query_store import isStoreExist
 # from app.database.models.stores.store import Store as model_store, stores_users
 # from app.routes.users.query_user import isUserExist, getUserById
 
@@ -20,7 +22,7 @@ def getAll(db: Session):
         )
 
 
-def getTripById(id_trip: int, db: Session):
+def getTripById(id_trip: str, db: Session):
     try:
         trip = (
             db.query(model_trip)
@@ -30,10 +32,7 @@ def getTripById(id_trip: int, db: Session):
         if trip:
             return trip
         else:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail = "El registro del viaje no fue encontrado."
-            )
+            return None
     except:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -42,18 +41,18 @@ def getTripById(id_trip: int, db: Session):
         
 
 # TODO: Crear esquemas pydentic
-def createTrip(id_trip: int, applicant: str, licence_plate: str, id_store: int, date: datetime, db: Session):
+def createTrip(id_trip: str, applicant: str, transport: str, id_store: int, db: Session):
 
     # Validamos si el transportista y la sucursal existen.
-    if isTransportExist(licence_plate, db) and isStoreExist(id_store, db):
+    if isTransportExist(transport, db) and isStoreExist(id_store, db):
 
         if not getTripById(id_trip, db):
             trip = model_trip(
                 id_trip = id_trip,
                 applicant = applicant,
-                transport = licence_plate,
+                transport = transport,
                 id_store = id_store,
-                created_date = date,
+                created_date = date.today(),
             )
             
             print(trip)
@@ -77,7 +76,7 @@ def createTrip(id_trip: int, applicant: str, licence_plate: str, id_store: int, 
     )
 
 
-def updateTrip(id_trip: int, applicant: str, licence_plate: str, id_store: int, date: datetime, db: Session):
+def updateTrip(id_trip: int, applicant: str, licence_plate: str, id_store: int, date: str, db: Session):
     # Validamos si el transportista y la sucursal existen.
     if isTransportExist(licence_plate, db) and isStoreExist(id_store, db):
         # Recuperamos el viaje que queremos actualizar
@@ -134,7 +133,7 @@ def getTripsByUser(user_id: int, db: Session):
     return None, None
 
 
-def getUsersByTrip(trip_id: int, db: Session):
+def getUsersByTrip(trip_id: str, db: Session):
     # Obtiene la lista de usuarios por cada sucursal
     if isTripExist(trip_id, db):
         # Query para obtener las viajes por usuario
@@ -154,7 +153,7 @@ def getUsersByTrip(trip_id: int, db: Session):
     return None, None
 
 
-def createTripUsers(id_trip: int, id_user: int, db: Session):
+def createTripUsers(id_trip: str, id_user: int, db: Session):
      # Crea la realcion de sucursal y usuarios
     if isUserExist(id_user, db) and isTripExist(id_trip, db):
 
@@ -207,9 +206,22 @@ def deleteTripUsers(id_trip: int, id_user: int, db: Session):
         detail = "Los registros de usuario y/o sucursal no se encontraron."
     )
 
+def deleteAllTripUsers(id_trip: str, db: Session):
+    trip = getTripById(id_trip, db)
+
+    if trip:
+        trip.users.clear()
+        db.commit()
+
+        raise HTTPException(
+            status_code = status.HTTP_201_CREATED,
+            detail = 'Registros eliminados correctamente'
+        )
+
+
 # VALIDACIONES
 # -------------------------------------------------------------
-def isTripExist(id_trip: int, db: Session):
+def isTripExist(id_trip: str, db: Session):
     trip = (
         db.query(model_trip)
         .filter(model_trip.id_trip == id_trip)
